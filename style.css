@@ -1,0 +1,20 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+canvas {
+  position: absolute;
+}
+
+.inputWrapper{
+  position: absolute;
+  margin-top: 420px;
+  margin-left: 5px;
+  width: 150px;
+}
+.inputWrapper input{
+  width:103px;
+  margin-bottom: 5px;
+  padding: 3px;
+}
