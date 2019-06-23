@@ -3,6 +3,7 @@ var bounceTime = 0;
 var phi = 0;
 var disk1;
 var disk2;
+var term = 180/Math.PI
 
 class CollisionHandler{
   constructor(_disk1,_disk2){
@@ -23,14 +24,19 @@ class CollisionHandler{
     if(Date.now() - bounceTime < 200){
       return;
     }
+    console.log("x1: " + disk1.horSpeed, "y1: " + disk1.verSpeed)
+    console.log("x2: " + disk2.horSpeed, "y2: " + disk2.verSpeed)
+
+
     bounceTime = Date.now();
     phi = getCollisionAngel(disk1,disk2);
     var m1 = disk1.weight;
     var m2 = disk2.weight;
-    var v1 = disk1.getTotSpeed();
+    var v1 = disk1.getTotSpeed();//x**2 + y**2 = speed**2
     var v2 = disk2.getTotSpeed();
-    var v1a = calcAngle(disk1.hor,disk1.ver)
-    var v2a = calcAngle(disk2.hor,disk2.ver)
+    var v1a = calcAngle(disk1.horSpeed,disk1.verSpeed)//only hor, so = 0
+    var v2a = calcAngle(disk2.horSpeed,disk2.verSpeed)//both 0 = 90
+
     //rotate to collisionAngle
     var v1xr = v1*Math.cos(v1a - phi)
     var v1yr = v1*Math.sin(v1a - phi)
@@ -54,26 +60,28 @@ class CollisionHandler{
 }
 
 function getCollisionAngel(disk1,disk2){
+
   var x = disk2.hor - disk1.hor;
   var y = disk2.ver - disk1.ver;
   return calcAngle(x,y);
 }
+
 function calcAngle(x,y){
   var result = 0;
   if(x < 0){
-   result = 180+ Math.atan(y/x)
+   result = (180/term)+ Math.atan(y/x)
   }
   else if (x > 0 && y >= 0){
    result = Math.atan(y/x)
  }
  else if(x > 0 && y < 0){
-   result = 360+Math.atan(y/x)
+   result = (360/term)+Math.atan(y/x)
  }
  else if (x == 0 && y == 0){
-   result=90
+   result=90/term
  }
  else{
-   result = 270
+   result = 270/term
  }
  return result
 }
